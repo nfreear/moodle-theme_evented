@@ -4,16 +4,18 @@
  *
  * @package    theme_evented
  * @copyright  © Nick Freear, 14-March-2018.
- * @author     © Nick Freear, 14-March-2018.
  *
  * @link https://docs.moodle.org/dev/Event_2
  * @link https://docs.moodle.org/dev/Creating_a_theme_based_on_boost#Starting_files
  */
 
-$THEME->name = 'evented'; // 'outesla';
-$THEME->sheets = [ ]; // [ 'outesla-admin' ];
+defined('MOODLE_INTERNAL') || die();
+
+// Was: $THEME = new \stdClass().
+$THEME->name = 'evented';
+$THEME->sheets = [];
 $THEME->parents = [ 'boost' ];
-// $THEME->doctype = 'html5';
+// Was: $THEME->doctype = 'html5'.
 
 
 // A dock is a way to take blocks out of the page and put them in a persistent floating area on the side of the page. Boost
@@ -32,8 +34,8 @@ $THEME->rendererfactory = 'theme_overridden_renderer_factory';
 // pages in Moodle. Boost does not require these blocks because it provides other ways to navigate built into the theme.
 $THEME->requiredblocks = '';
 
-// This is a feature that tells the blocks library not to use the "Add a block" block. We don't want this in boost based themes because
-// it forces a block region into the page when editing is enabled and it takes up too much room.
+// This is a feature that tells the blocks library not to use the "Add a block" block. We don't want this in boost based
+// themes because it forces a block region into the page when editing is enabled and it takes up too much room.
 $THEME->addblockposition = BLOCK_ADDBLOCK_POSITION_FLATNAV;
 
 // End.

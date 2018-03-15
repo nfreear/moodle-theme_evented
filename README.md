@@ -8,11 +8,13 @@ any or every page, for example, by injecting Javascripts.
 
 ## Events
 
-* `\theme_evented\event\endofhtml_rendering`
-  * Triggered just before the closing `</body></html>`,
-    in `..\core_renderer::standard_end_of_body_html()`
-  * The event is anonymous,
-  * And has the system context.
+### `endofhtml_rendering`
+
+* Event name: `\theme_evented\event\endofhtml_rendering`
+* Triggered: just before the closing `</body></html>`,
+  in the PHP method, `..\core_renderer::standard_end_of_body_html()`
+* Anonymous: _yes_,
+* Context: _system_.
 
 ## Usage
 
@@ -39,7 +41,11 @@ Example `mod/example/classes/theme_event_observer.php`:
 class theme_event_observer {
 
     public static function endofhtml_rendering( $event ) {
-        ?> <pre> Hello world! ~ <?= __METHOD__ ?> </pre> <?php
+        ?>
+          <pre>
+            Hello world! ~ <?= __METHOD__ ?>
+          </pre>
+        <?php
     }
 }
 ```

@@ -10,16 +10,15 @@
 
 namespace theme_evented\output;
 
+defined('MOODLE_INTERNAL') || die();
+
 use html_writer;
 use theme_evented\event\endofhtml_rendering;
 
-// require_once $CFG->libdir . '/../theme/boost/classes/output/core_renderer.php';
 
-
-// class core_renderer extends \core_renderer {
 class core_renderer extends \theme_boost\output\core_renderer {
 
-    public function _X_DISABLE__standard_footer_html() {
+    public function _x_disable__standard_footer_html() {
         global $PAGE;
 
         header( 'X-theme-outesla-01: ' . get_class( $PAGE ));
@@ -32,7 +31,11 @@ class core_renderer extends \theme_boost\output\core_renderer {
         return $html;
     }
 
-    // https://github.com/moodle/moodle/blob/master/lib/outputrenderers.php#L901-L913
+    /**
+     * Output the standard tags (typically script tags that are not needed earlier)...
+     * @link https://github.com/moodle/moodle/blob/master/lib/outputrenderers.php#L901-L913
+     * @return string HTML fragment.
+     */
     public function standard_end_of_body_html() {
 
         $html = parent::standard_end_of_body_html();
@@ -40,15 +43,15 @@ class core_renderer extends \theme_boost\output\core_renderer {
         ob_start();
         $event = \theme_evented\event\endofhtml_rendering::create([ 'other' => [
             'themename' => 'evented',
-            // 'page' => $PAGE,
+            // Not: 'page' => $PAGE.
             'javascripts' => [],
             'styleshEets' => [],
             'html' => [],
         ] ]);
         $event->trigger();
 
-        $ev_data = json_encode( $event->get_data() );
-        $html .= "\n<script> console.warn('Event:', '$ev_data' ); </script>\n";
+        $evdata = json_encode( $event->get_data() );
+        $html .= "\n<script> console.warn('Event:', '$evdata' ); </script>\n";
 
         $html .= ob_get_clean();
 
@@ -63,22 +66,21 @@ class core_renderer extends \theme_boost\output\core_renderer {
 
         $scripts = isset( $CFG->theme_evented_enqueue_script ) ? $CFG->theme_evented_enqueue_script : [];
 
-        foreach ( $CFG->theme_outesla_enqueue_script as $script ) {
-            $script = str_replace( '{base}', '', $script );
+        foreach ($scripts as $script) {
+            $script = str_replace('{base}', '', $script);
             $html .= html_writer::start_tag('script', [ 'src' => $script ]);
             $html .= html_writer::end_tag('script');
         }
         return $html;
     }
 
-    protected static function write_debug_javascript( $html, $func ) {
-        global $PAGE, $CFG;
+    protected static function write_debug_javascript($html, $func) {
+        global $PAGE;
 
-        $pg_class = get_class( $PAGE );
+        $pgclass = get_class( $PAGE );
 
-        // $html .= "\n<script> console.warn('NDF: $fn; $pg'); </script>\n";
         $html .= html_writer::start_tag('script');
-        $html .= "console.warn('NDF 1: $func, $pg_class');";
+        $html .= "console.warn('NDF 1: $func, $pgclass');";
         $html .= html_writer::end_tag('script');
 
         return $html;

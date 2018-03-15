@@ -27,7 +27,7 @@ class endofhtml_rendering extends \core\event\base {
 
         $this->context = \context_system::instance();
 
-        // $this->data['objecttable'] = 'user';
+        // Not: $this->data['objecttable'] = 'user'.
         $this->data[ 'crud' ] = 'r';
         $this->data[ 'edulevel' ] = self::LEVEL_OTHER;
     }
@@ -46,14 +46,6 @@ class endofhtml_rendering extends \core\event\base {
     public function get_description() {
         return "Called by the theme in 'core_renderer' derived class: output.standard_end_of_body_html";
     }
-
-    /**
-     * @return \moodle_url  Returns relevant URL.
-     */
-    public function _X__get_url() {
-        return new \moodle_url('/user/view.php', [ 'id' => $this->objectid ]);
-    }
 }
 
 // End.
-// "classes/event/endofhtml_rendered.php" 59L, 1364C

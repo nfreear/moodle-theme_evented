@@ -10,7 +10,10 @@ git:
 
 install: composer install
 
-before_script: composer validate
+before_script:
+  - composer validate
+  - composer ci-install
+  - composer write-ignore-xml
 
 script: composer test
 

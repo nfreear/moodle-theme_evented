@@ -1,5 +1,7 @@
 
 composer.lock
 vendor/
+thirdpartylibs.xml
+*BAK*
 
 # End.

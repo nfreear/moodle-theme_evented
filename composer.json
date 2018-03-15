@@ -6,16 +6,38 @@
   "time": "2018-03-14",
   "support": { "source": "https://github.com/nfreear/moodle-theme_evented.git" },
   "authors": [ { "name": "Nick Freear" } ],
+  "minimum-stability": "dev",
   "require": {
     "php": ">=5.5.9",
     "composer/installers": "^1.5.0"
   },
   "require-dev": {
-    "jakub-onderka/php-parallel-lint": "^1.0.0"
+    "nfreear/moodle-plugin-ci-x": "^1.0@dev"
   },
+  "suggest": { "jakub-onderka/php-parallel-lint": "^1.0.0" },
   "scripts": {
-    "test": "parallel-lint --exclude vendor ."
+    "write-ignore-xml": [
+      "thirdpartylibs-xml.php -L vendor > thirdpartylibs.xml"
+    ],
+    "ci-install": [
+      "# moodle-plugin-ci install",
+      "phpcs --config-set installed_paths vendor/nfreear/moodle-plugin-ci-x/"
+    ],
+    "test": [
+      "moodle-plugin-ci phplint .",
+      "moodle-plugin-ci phpcpd .",
+      "moodle-plugin-ci phpmd .",
+      "moodle-plugin-ci codechecker -s moodle-no-bp .",
+      "# moodle-plugin-ci csslint .",
+      "moodle-plugin-ci shifter .",
+      "# moodle-plugin-ci jshint .",
+      "moodle-plugin-ci validate .",
+      "# moodle-plugin-ci phpunit . --coverage-text"
+    ]
   },
+  "repositories": [
+    { "type": "composer", "url": "https://embed.open.ac.uk/iet-satis/" }
+  ],
   "extra": {
     "branch-alias": {
       "dev-master": "1.0.x-dev"
