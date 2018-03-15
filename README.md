@@ -1,12 +1,22 @@
 
 # [![Build status — Travis-CI][travis-icon]][travis]
 
-A Moodle theme built on [Boost][] which uses the [Moodle Event_2 API][event_2].
+A Moodle theme built on [Boost][] and the [Moodle Event 2 API][event_2].
 
+Other Moodle plugins can observe `rendering` events to manipulate
+any or every page, for example, by injecting Javascripts.
+
+## Events
+
+* `\theme_evented\event\endofhtml_rendering`
+  * Triggered just before the closing `</body></html>`,
+    in `..\core_renderer::standard_end_of_body_html()`
+  * The event is anonymous,
+  * And has the system context.
 
 ## Usage
 
-Example `db/events.php`:
+Example `mod/example/db/events.php`:
 
 ```php
 <?php
@@ -21,7 +31,7 @@ $observers = [
 ];
 ```
 
-Example `classes/theme_event_observer.php`:
+Example `mod/example/classes/theme_event_observer.php`:
 
 ```php
 <?php namespace mod_example;
@@ -29,10 +39,12 @@ Example `classes/theme_event_observer.php`:
 class theme_event_observer {
 
     public static function endofhtml_rendering( $event ) {
-        ?> <pre> Hello:  <?= __METHOD__ ?> </pre> <?php
+        ?> <pre> Hello world! ~ <?= __METHOD__ ?> </pre> <?php
     }
 }
 ```
+
+## Install... Test
 
 And, at the commandline / terminal, type:
 

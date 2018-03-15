@@ -1,6 +1,6 @@
 {
-  "name": "moodle-theme_evented",
-  "description": "A Moodle theme which uses the Moodle Event_2 API.",
+  "name": "nfreear/moodle-theme_evented",
+  "description": "A Moodle theme built on Boost & Event 2. Other plugins can observe rendering events to manipulate any page.",
   "type": "moodle-theme",
   "license": "proprietary",
   "time": "2018-03-14",
@@ -15,5 +15,10 @@
   },
   "scripts": {
     "test": "parallel-lint --exclude vendor ."
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
   }
 }
