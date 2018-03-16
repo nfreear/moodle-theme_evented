@@ -5,7 +5,7 @@
  * @copyright Nick Freear, 14-March-2018.
  *
  * @link https://github.com/moodle/moodle/blob/master/theme/boost/classes/output/core_renderer.php
- * @link https://github.com/moodle/moodle/blob/master/theme/boost/templates/columns2.mustache
+ * @link https://github.com/moodle/moodle/blob/master/theme/boost/templates/columns2.mustache#L118
  */
 
 namespace theme_evented\output;
@@ -14,7 +14,6 @@ defined('MOODLE_INTERNAL') || die();
 
 use html_writer;
 use theme_evented\event\endofhtml_rendering;
-
 
 class core_renderer extends \theme_boost\output\core_renderer {
 
@@ -55,17 +54,21 @@ class core_renderer extends \theme_boost\output\core_renderer {
 
         $html .= ob_get_clean();
 
-        $html .= self::write_config_javascripts( $html );
-        $html .= self::write_debug_javascript( $html, __METHOD__ );
+        $html .= self::write_config_javascripts();
+        $html .= self::write_debug_javascript( __METHOD__ );
 
         return $html;
     }
 
-    protected static function write_config_javascripts( $html ) {
+    /**
+     * @return string Return HTML fragment.
+     */
+    protected static function write_config_javascripts() {
         global $CFG;
 
         $scripts = isset( $CFG->theme_evented_enqueue_script ) ? $CFG->theme_evented_enqueue_script : [];
 
+        $html = '';
         foreach ($scripts as $script) {
             $script = str_replace('{base}', '', $script);
             $html .= html_writer::start_tag('script', [ 'src' => $script ]);
@@ -74,13 +77,17 @@ class core_renderer extends \theme_boost\output\core_renderer {
         return $html;
     }
 
-    protected static function write_debug_javascript($html, $func) {
+    /**
+     * @return string Return HTML fragment.
+     */
+    protected static function write_debug_javascript($func) {
         global $PAGE;
 
         $pgclass = get_class( $PAGE );
 
+        $html = '';
         $html .= html_writer::start_tag('script');
-        $html .= "console.warn('NDF 1: $func, $pgclass');";
+        $html .= "console.warn('Debug: $func, $pgclass');";
         $html .= html_writer::end_tag('script');
 
         return $html;
